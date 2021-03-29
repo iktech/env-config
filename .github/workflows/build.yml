@@ -24,6 +24,7 @@ jobs:
     - name: Copy the produced file to a S3 bucket
       uses: keithweaver/aws-s3-github-action@v0.1.2
       with:
+        command: cp
         source: ./config
         destination: s3://iktech-public-dl/config/linux-x64/config
         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
