@@ -21,13 +21,9 @@ jobs:
     - name: Build
       run: go build -v ./...
 
-    - name: Copy the produced file to a S3 bucket
-      uses: keithweaver/aws-s3-github-action@v0.1.2
+    - name: Upload built artifact
+      uses: actions/upload-artifact@v2
       with:
-        command: cp
-        source: ./config
-        destination: s3://iktech-public-dl/config/linux-x64/config
-        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        
-      
+        name: linux-x64
+        path: config
+    
