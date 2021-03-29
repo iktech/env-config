@@ -51,6 +51,7 @@ func main() {
 	testTemplate, err := template.New(filepath.Base(os.Args[1])).Funcs(template.FuncMap{
 		"env":         vars,
 		"withDefault": varsWithDefault,
+		"exists":      exists,
 	}).ParseFiles(os.Args[1])
 	if err != nil {
 		logger.Fatal(err)
@@ -67,13 +68,19 @@ func main() {
 // this function extracts the variable value from the environment using the key
 // If variable is absent it will return an empty string
 func vars(data map[string]string, key string) string {
-	return data[key]
+	return strings.TrimSpace(data[key])
+}
+
+// this function extracts the variable value from the environment using the key
+// If variable is absent it will return an empty string
+func exists(data map[string]string, key string) bool {
+	return strings.TrimSpace(data[key]) != ""
 }
 
 // this function extracts the variable value from the environment using the key
 // If variable is absent it will return the defaultValue instead
 func varsWithDefault(data map[string]string, key string, defaultValue string) string {
-	d := data[key]
+	d := strings.TrimSpace(data[key])
 	if d == "" {
 		d = defaultValue
 	}
