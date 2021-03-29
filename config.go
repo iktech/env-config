@@ -3,16 +3,17 @@ package main
 import (
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 	"text/template"
 )
 
 var (
-	logger                  *log.Logger
-	data                    map[string]string
+	logger *log.Logger
+	data   map[string]string
 )
 
-func main()  {
+func main() {
 	// Setup logger
 	logger = log.New(os.Stdout, "env-config: ", log.LstdFlags)
 
@@ -47,8 +48,8 @@ func main()  {
 	}
 
 	// Create a template from the file specified as a first parameter
-	testTemplate, err := template.New("template").Funcs(template.FuncMap{
-		"env": vars,
+	testTemplate, err := template.New(filepath.Base(os.Args[1])).Funcs(template.FuncMap{
+		"env":         vars,
 		"withDefault": varsWithDefault,
 	}).ParseFiles(os.Args[1])
 	if err != nil {
